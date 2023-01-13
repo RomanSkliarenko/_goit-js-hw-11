@@ -25,6 +25,7 @@ const searchQuery = async function(e) {
     const { hits, totalHits } = data;
 
     if (hits.length > 0) {
+      totalHits > 40 ? moreBtn.classList.remove('is-hidden') : null
       Notiflix.Notify.info(`Hooray! We found ${totalHits} images.`);
       hits.forEach((item) => createCard(item));
       new SimpleLightbox('.card a', {
@@ -35,15 +36,10 @@ const searchQuery = async function(e) {
       })
     } else {
       Notiflix.Notify.failure(`Sorry, there are no images matching your search query. Please try again.`);
-      return;
     }
   } catch ({ message }) {
     Notiflix.Notify.failure(`${message}`);
   }
-
-  moreBtn.classList.contains('is-hidden')
-    ? moreBtn.classList.toggle('is-hidden')
-    : null;
 };
 
 const moreImage = async function(e) {
@@ -62,6 +58,7 @@ const moreImage = async function(e) {
       slb.refresh()
     } else {
       Notiflix.Notify.failure(`We're sorry, but you've reached the end of search results.`);
+      moreBtn.classList.add('is-hidden')
       return;
     }
   } catch ({ message }) {
